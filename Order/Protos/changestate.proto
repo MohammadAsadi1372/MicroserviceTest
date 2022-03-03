@@ -1,0 +1,35 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "GrpcClient";
+
+
+service ChangeState {
+	rpc ChangeOrderState (ChangeStateRequest) returns (Order);
+}
+
+
+message ChangeStateRequest{
+	string OrderId = 1;
+    int32 OrderState =2;
+    int32 OrderStatus = 3;
+}
+
+message Order{
+	 string OrderId =1;
+
+     int32 UserId = 2;
+
+     int32 ProductId = 3;
+
+     int32 OrderState = 4 ;
+
+     int32 OrderStatus = 5;
+
+     string CreateDate = 6;
+
+     string CreateTime = 7;
+
+     string ModifyDate = 8;
+
+     string ModifyTime  = 9;
+}
