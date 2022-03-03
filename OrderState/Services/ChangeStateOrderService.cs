@@ -15,17 +15,20 @@ namespace OrderState.Services
         {
             this._orderService = orderService;
         }
-        public override async Task<GrpcServer.Order> ChangeOrderState(ChangeStateRequest request, ServerCallContext context)
+        public override Task<GrpcServer.Order> ChangeOrderState(ChangeStateRequest request, ServerCallContext context)
         {
-            var Order = await _orderService.GetAsync(request.OrderId);
+            var Order = _orderService.Get(request.OrderId);
             if (Order != null)
             {
                 Order.OrderState = (E_OrderState)request.OrderState;
                 Order.OrderStatus = (E_OrderStatus)request.OrderStatus;
                 Order.ModifyDate = (string.Format("{0}/{1}/{2}", new PersianCalendar().GetYear(DateTime.Now), new PersianCalendar().GetMonth(DateTime.Now), new PersianCalendar().GetDayOfMonth(DateTime.Now)));
                 Order.ModifyTime = DateTime.Now.ToString("HH:mm:ss:fff");
-                await _orderService.UpdateAsync(Order.OrderId, Order);
-                return new GrpcServer.Order { 
+                _orderService.Update(Order.OrderId, Order);
+
+
+                var result = new GrpcServer.Order
+                {
                     CreateDate = Order.CreateDate,
                     OrderState = (int)Order.OrderState,
                     OrderStatus = (int)Order.OrderStatus,
@@ -36,6 +39,8 @@ namespace OrderState.Services
                     CreateTime = Order.CreateTime,
                     ProductId = Order.ProductId
                 };
+
+                return Task.FromResult(result);
             }
             else
                 return null;

@@ -25,8 +25,14 @@ namespace OrderState.Models
         public async Task<Order?> GetAsync(string OrderId) =>
             await _orderCollection.Find(x => x.OrderId == OrderId).FirstOrDefaultAsync();
 
+        public Order? Get(string OrderId) =>
+         _orderCollection.Find(x => x.OrderId == OrderId).FirstOrDefault();
+
         public async Task UpdateAsync(string OrderId, Order order) =>
             await _orderCollection.ReplaceOneAsync(x => x.OrderId == OrderId, order);
+
+        public  void Update(string OrderId, Order order) =>
+             _orderCollection.ReplaceOneAsync(x => x.OrderId == OrderId, order);
     }
 }
 

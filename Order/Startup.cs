@@ -31,6 +31,8 @@ namespace Order
             services.AddSingleton<OrderService>();
 
             services.AddControllers();
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Order", Version = "v1" });
