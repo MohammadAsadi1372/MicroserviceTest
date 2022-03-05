@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  testdocker:
+    image: ${DOCKER_REGISTRY-}testdocker
+    build:
+      context: .
+      dockerfile: TestDocker/Dockerfile
+
+  testdocker2:
+    image: ${DOCKER_REGISTRY-}testdocker2
+    build:
+      context: .
+      dockerfile: TestDocker2/Dockerfile
+
+
+  testdocker3:
+    image: ${DOCKER_REGISTRY-}testdocker3
+    build:
+      context: .
+      dockerfile: TestDocker3/Dockerfile
+
