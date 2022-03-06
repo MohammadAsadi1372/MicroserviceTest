@@ -20,7 +20,7 @@ namespace OrderService.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IBus _bus;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger,IBus bus)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IBus bus)
         {
             _logger = logger;
             this._bus = bus;
@@ -30,20 +30,21 @@ namespace OrderService.Controllers
         public async Task<IEnumerable<WeatherForecast>> Get()
         {
             var rng = new Random();
-            var data =  Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var data = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
-
             Uri uri = new Uri("rabbitmq://localhost/besttest");
             var endpoint = await _bus.GetSendEndpoint(uri);
+
             await endpoint.Send(data.FirstOrDefault());
 
+
             return data;
-           
+
         }
     }
 }

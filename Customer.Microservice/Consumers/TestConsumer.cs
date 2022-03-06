@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using OrderService;
 using System.Threading.Tasks;
 
 namespace Customer.Microservice.Consumers
